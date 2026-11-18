@@ -74,7 +74,19 @@ h2 .i{color:var(--accent)}
 dt::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:10px;background:var(--c1)}
 dt:nth-of-type(3n+2)::before{background:var(--c2)}
 dt:nth-of-type(3n)::before{background:var(--c3)}
+.car-bar{display:flex;justify-content:space-between;align-items:center;margin:-8px 0 16px}
+.dots,.btns{display:flex;gap:10px;align-items:center}
+.dot{width:12px;height:12px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
+.dot[aria-current="true"]{background:var(--accent);transform:scale(1.25)}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.nav-btn .i{margin:0;width:22px;height:22px}
+.nav-btn:disabled{opacity:.4;cursor:default}
+.nav-btn:focus-visible,.dot:focus-visible,.carousel:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.carousel{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;position:relative;padding:2px 0 14px;scrollbar-width:thin}
+.carousel .case{flex:0 0 88%;scroll-snap-align:start;margin:0}
+@media (prefers-reduced-motion:reduce){.carousel{scroll-behavior:auto}}
 @media (max-width:640px){
+  .carousel .case{flex-basis:92%}
   body{font-size:16px}
   .row,dl{grid-template-columns:1fr}
   header{padding-top:48px}
@@ -92,6 +104,8 @@ dt:nth-of-type(3n)::before{background:var(--c3)}
 <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
 <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
 </svg>
 
 <header>
@@ -121,6 +135,14 @@ dt:nth-of-type(3n)::before{background:var(--c3)}
 
 <section id="case-study">
   <h2><svg class="i"><use href="#i-search"/></svg>Case studies</h2>
+  <div class="car-bar">
+    <div class="dots" id="dots"></div>
+    <div class="btns">
+      <button class="nav-btn" id="prev" type="button" aria-label="Previous case study"><svg class="i"><use href="#i-left"/></svg></button>
+      <button class="nav-btn" id="next" type="button" aria-label="Next case study"><svg class="i"><use href="#i-right"/></svg></button>
+    </div>
+  </div>
+  <div class="carousel" id="cases" tabindex="0" role="region" aria-label="Case studies, scroll sideways">
   <article class="case c1">
     <div class="head"><span class="badge"><svg class="i"><use href="#i-bell"/></svg></span><div><h3>Notifications that never reached field workers</h3><p class="sub">MWM Clevest, notification-sending service</p></div></div>
     <h4>The incident</h4>
@@ -153,6 +175,7 @@ dt:nth-of-type(3n)::before{background:var(--c3)}
     <h4>Resolution</h4>
     <p>I informed the customer, then took the problem to the provider with evidence: the Postman calls I used to reproduce it and the return codes the service sent back.</p>
   </article>
+  </div>
 </section>
 
 <section id="experience">
@@ -222,7 +245,7 @@ dt:nth-of-type(3n)::before{background:var(--c3)}
     <dt>Databases</dt><dd>MS SQL Server, PostgreSQL, Oracle, MySQL, Redis, Azure NoSQL</dd>
     <dt>Cloud and DevOps</dt><dd>Azure (App Services, hosting, NoSQL), Docker, CI/CD pipelines, GitLab</dd>
     <dt>Practices</dt><dd>REST and SOAP APIs, microservices, JWT authentication, Agile and Scrum</dd>
-    <dt>AI tools</dt><dd>Azure AI agents, Copilot, Cursor and Claude for AI-assisted development, code review and debugging</dd>
+      <dt>AI tools</dt><dd>Azure AI agents, Copilot, Cursor and Claude for AI-assisted development, code review and debugging</dd>
   </dl>
 </section>
 
@@ -244,5 +267,34 @@ dt:nth-of-type(3n)::before{background:var(--c3)}
   <div class="wrap">&copy; <span id="y">2026</span> Ruvin Sawmith</div>
 </footer>
 <script>document.getElementById("y").textContent=new Date().getFullYear();</script>
+<script>
+(function(){
+  var c=document.getElementById("cases"),cards=[].slice.call(c.children),dots=document.getElementById("dots"),
+      prev=document.getElementById("prev"),next=document.getElementById("next"),
+      calm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function go(i){c.scrollTo({left:cards[i].offsetLeft,behavior:calm?"auto":"smooth"});}
+  function cur(){
+    if(c.scrollLeft+c.clientWidth>=c.scrollWidth-2)return cards.length-1;
+    var b=0,d=1e9;
+    cards.forEach(function(el,i){var x=Math.abs(el.offsetLeft-c.scrollLeft);if(x<d){d=x;b=i;}});
+    return b;
+  }
+  var btns=cards.map(function(_,i){
+    var b=document.createElement("button");
+    b.type="button";b.className="dot";b.setAttribute("aria-label","Go to case study "+(i+1));
+    b.onclick=function(){go(i);};dots.appendChild(b);return b;
+  });
+  function update(){
+    var n=cur();
+    btns.forEach(function(b,i){b.setAttribute("aria-current",i===n?"true":"false");});
+    prev.disabled=n===0;next.disabled=n===cards.length-1;
+  }
+  prev.onclick=function(){go(Math.max(cur()-1,0));};
+  next.onclick=function(){go(Math.min(cur()+1,cards.length-1));};
+  c.addEventListener("scroll",update,{passive:true});
+  window.addEventListener("resize",update);
+  update();
+})();
+</script>
 </body>
 </html>
