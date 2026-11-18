@@ -10,25 +10,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F5F7F6; --ink:#14212B; --muted:#5A6A75; --line:#D3DBDF; --accent:#0B6E6E; --panel:#E8EEEE;
+  --bg:#F3F7F7; --wash:linear-gradient(180deg,#DDF1EE 0,#EDE9FB 45%,#FFF0E1 100%);
+  --ink:#14212B; --muted:#52636E; --line:#CBD8DC; --accent:#0F766E; --panel:#FFFFFF; --on:#FFFFFF;
+  --c1:#0F766E; --c2:#6D28D9; --c3:#BE123C;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#101A21; --ink:#E6ECEF; --muted:#9FB0BB; --line:#2A3A45; --accent:#4FC3BD; --panel:#172630;
+    --bg:#0E1A21; --wash:linear-gradient(180deg,#0E2A2D 0,#1A1730 50%,#2A1A22 100%);
+    --ink:#E6ECEF; --muted:#9FB0BB; --line:#2A3A45; --accent:#5EEAD4; --panel:#15262F; --on:#0E1A21;
+    --c1:#5EEAD4; --c2:#C4B5FD; --c3:#FDA4AF;
     color-scheme: dark;
   }
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 "IBM Plex Sans",system-ui,sans-serif}
+body{margin:0;background:var(--wash),var(--bg);background-attachment:fixed;color:var(--ink);font:400 17px/1.65 "IBM Plex Sans",system-ui,sans-serif}
 a{color:var(--accent);text-underline-offset:3px}
 a:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:2px}
 .wrap{max-width:880px;margin:0 auto;padding:0 24px}
 h1,h2,h3{font-family:"Bricolage Grotesque","Segoe UI",sans-serif;line-height:1.15;margin:0}
-header{padding:72px 0 48px;border-bottom:1px solid var(--line)}
+header{padding:72px 0 48px;background:linear-gradient(135deg,#0F766E 0,#2563EB 55%,#6D28D9 100%);color:#fff}
+header a{color:#fff}
+header a:focus-visible{outline-color:#fff}
 h1{font-size:clamp(2.8rem,9vw,5.6rem);font-weight:700;letter-spacing:-.03em}
-.role{font:500 1.35rem/1.3 "Bricolage Grotesque",sans-serif;color:var(--accent);margin:14px 0 22px}
+.role{font:500 1.35rem/1.3 "Bricolage Grotesque",sans-serif;color:#C9F7F0;margin:14px 0 22px}
 .lede{max-width:60ch;margin:0 0 28px;font-size:1.08rem}
 .links{display:flex;flex-wrap:wrap;gap:10px 22px;padding:0;margin:0;list-style:none}
 nav{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
@@ -52,6 +58,22 @@ dl{margin:0;display:grid;grid-template-columns:170px 1fr;gap:10px 32px}
 dt{font-weight:500;color:var(--muted)}
 dd{margin:0}
 footer{margin-top:48px;padding:28px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
+
+h2{display:flex;align-items:center}
+.i{width:1.05em;height:1.05em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-right:.5em;flex:none}
+h2 .i{color:var(--accent)}
+.links .i{vertical-align:-.15em}
+.when{color:var(--accent);font-weight:500}
+.case{--c:var(--c1);background:var(--panel);border-left:4px solid var(--c);box-shadow:0 1px 0 var(--line)}
+.case.c2{--c:var(--c2)} .case.c3{--c:var(--c3)}
+.case h4{color:var(--c)}
+.head{display:flex;gap:16px;align-items:center;margin-bottom:22px}
+.head .sub{margin:0}
+.badge{width:48px;height:48px;border-radius:12px;background:var(--c);color:var(--on);display:grid;place-items:center;flex:none}
+.badge .i{margin:0;width:26px;height:26px}
+dt::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:10px;background:var(--c1)}
+dt:nth-of-type(3n+2)::before{background:var(--c2)}
+dt:nth-of-type(3n)::before{background:var(--c3)}
 @media (max-width:640px){
   body{font-size:16px}
   .row,dl{grid-template-columns:1fr}
@@ -62,6 +84,15 @@ footer{margin-top:48px;padding:28px 0 56px;border-top:1px solid var(--line);colo
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+<symbol id="i-work" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+</svg>
 
 <header>
   <div class="wrap">
@@ -69,7 +100,7 @@ footer{margin-top:48px;padding:28px 0 56px;border-top:1px solid var(--line);colo
     <p class="role">Lead Software Engineer</p>
     <p class="lede">I have spent 9+ years building enterprise software with C#, .NET and React across service management, finance, real estate and higher education. Today I lead development on MWM Clevest applications at IFS, where I fix hard production incidents and mentor the team.</p>
     <ul class="links">
-      <li><a href="mailto:sawmith94@gmail.com">sawmith94@gmail.com</a></li>
+      <li><a href="mailto:sawmith94@gmail.com"><svg class="i"><use href="#i-mail"/></svg>sawmith94@gmail.com</a></li>
       <!-- Add your own links here, for example:
       <li><a href="https://www.linkedin.com/in/your-profile">LinkedIn</a></li>
       <li><a href="https://github.com/your-username">GitHub</a></li> -->
@@ -79,7 +110,7 @@ footer{margin-top:48px;padding:28px 0 56px;border-top:1px solid var(--line);colo
 
 <nav aria-label="Sections">
   <div class="wrap">
-    <a href="#case-study">Case study</a>
+    <a href="#case-study">Case studies</a>
     <a href="#experience">Experience</a>
     <a href="#skills">Skills</a>
     <a href="#education">Education</a>
@@ -89,28 +120,43 @@ footer{margin-top:48px;padding:28px 0 56px;border-top:1px solid var(--line);colo
 <main class="wrap">
 
 <section id="case-study">
-  <h2>Case study</h2>
-  <article class="case">
-    <h3>Notifications that never reached field workers</h3>
-    <p class="sub">MWM Clevest, notification-sending service</p>
-
+  <h2><svg class="i"><use href="#i-search"/></svg>Case studies</h2>
+  <article class="case c1">
+    <div class="head"><span class="badge"><svg class="i"><use href="#i-bell"/></svg></span><div><h3>Notifications that never reached field workers</h3><p class="sub">MWM Clevest, notification-sending service</p></div></div>
     <h4>The incident</h4>
     <p>Several customers reported that a notification reached only about 60 to 70 field workers. Many employees never received it.</p>
-
     <h4>Root cause</h4>
     <p>The service runs on a 90-minute schedule and sent only 7 messages per run. The notification queue resets each day and refills with a large new batch. For customers with high volumes, a day of runs could not get through the batch at 7 messages at a time.</p>
-
     <h4>The fix</h4>
     <p>Raising the fixed number for everyone would have put load on customers who were already performing well. Instead I made the batch size a setting in the application configuration.</p>
-    <div class="rule">messages per run = configured value, or 7 when the value is null or empty</div>
-
+<div class="rule">messages per run = configured value, or 7 when the value is null or empty</div>
     <h4>The result</h4>
     <p>Existing customers see no change in behavior. High-volume customers can raise their batch size to clear the whole day's queue.</p>
+  </article>
+  <article class="case c2">
+    <div class="head"><span class="badge"><svg class="i"><use href="#i-zap"/></svg></span><div><h3>Faster order custom field updates</h3><p class="sub">MWM Clevest, SQL performance</p></div></div>
+    <h4>The problem</h4>
+    <p>Updating custom fields on orders was slow. When something like this is slow, the usual suspect is database health, but in this case the database was not the cause.</p>
+    <h4>Root cause</h4>
+    <p>The SQL query loaded fields it never used and made the classic N+1 mistake: one extra query for every record instead of one query for all of them.</p>
+    <h4>The fix</h4>
+    <p>I rewrote the query to read only the fields the update needs and to fetch the related data in a single round trip instead of one trip per record.</p>
+    <h4>The result</h4>
+    <p>Order custom field updates run faster without any change to the database itself.</p>
+  </article>
+  <article class="case c3">
+    <div class="head"><span class="badge"><svg class="i"><use href="#i-mail"/></svg></span><div><h3>Emails that failed only when an image was added</h3><p class="sub">MWM Clevest, third-party email service</p></div></div>
+    <h4>The problem</h4>
+    <p>MWM sends template-based custom emails through a third-party service. Adding an image to a template is optional and customers rarely use it. One customer did, and their emails failed.</p>
+    <h4>Investigation</h4>
+    <p>Because the image feature is so rarely used, there was no obvious lead. After hours of debugging through the code, I found that our code was sending valid requests and the third-party service itself was failing whenever an image was included.</p>
+    <h4>Resolution</h4>
+    <p>I informed the customer, then took the problem to the provider with evidence: the Postman calls I used to reproduce it and the return codes the service sent back.</p>
   </article>
 </section>
 
 <section id="experience">
-  <h2>Experience</h2>
+  <h2><svg class="i"><use href="#i-work"/></svg>Experience</h2>
 
   <div class="row">
     <div class="when">Jul 2025 to present</div>
@@ -168,7 +214,7 @@ footer{margin-top:48px;padding:28px 0 56px;border-top:1px solid var(--line);colo
 </section>
 
 <section id="skills">
-  <h2>Skills</h2>
+  <h2><svg class="i"><use href="#i-code"/></svg>Skills</h2>
   <dl>
     <dt>Languages</dt><dd>C#, Java, JavaScript, TypeScript, Python, PHP</dd>
     <dt>.NET</dt><dd>ASP.NET MVC 5, ASP.NET Core, .NET Web API, Entity Framework and EF Core, LINQ</dd>
@@ -180,7 +226,7 @@ footer{margin-top:48px;padding:28px 0 56px;border-top:1px solid var(--line);colo
 </section>
 
 <section id="education">
-  <h2>Education</h2>
+  <h2><svg class="i"><use href="#i-cap"/></svg>Education</h2>
   <div class="row">
     <div class="when">2020 to 2021</div>
     <div><h3>Postgraduate Diploma in Cyber Security</h3><div class="org">Sri Lanka Institute of Information Technology</div></div>
